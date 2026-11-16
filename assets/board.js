@@ -80,6 +80,7 @@ window.__eyaExport = /[?&]export/.test(location.search); window.__eyaSizes = /[?
   const proto = new URLSearchParams(location.search).has('proto');
   if (document.body.classList.contains('board') || proto) {
     document.body.insertAdjacentHTML('afterbegin', `<div class="board-head"><a href="index.html">${LOGO}</a><span class="badge badge--demo">Maquettes v0.2</span><nav>${FILES.map(f => `<a href="${f[0]}" class="${f[0] === here ? 'is-on' : ''}">${f[1]}</a>`).join('')}${$$('figure.shot').length ? `<a href="?proto" style="color:var(--creme)">▶ Prototype</a>` : ''}</nav></div>`);
+    document.querySelector('.board-head nav .is-on')?.scrollIntoView({ block: 'nearest', inline: 'center' });
   }
 
   // Navigation
