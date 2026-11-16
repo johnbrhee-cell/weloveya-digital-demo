@@ -266,7 +266,9 @@
   #guichet.open { display: block; animation: gin .5s var(--m-courbe); } @keyframes gin { from { opacity: 0; transform: scale(1.04); } }
   /* Guichet ouvert : le monde derrière est masqué. Sur grand écran, ses couches saturaient la mémoire graphique et le guichet s'affichait par morceaux. */
   html.gfull #vp, html.gfull #jungle, html.gfull #pied, html.gfull #fxl, html.gfull #flash, html.gfull #appw, html.gfull #hint, html.gfull #top { visibility: hidden !important; }
-  @media (min-width: 901px) and (max-width: 1180px) { .g-grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (min-width: 901px) and (max-width: 1180px) { #guichet .g-grid { grid-template-columns: minmax(0, 1fr); } }
+  /* Le monde 3D ne doit jamais se mêler aux volets : il forme un groupe à part, et les volets passent sur leur propre calque. */
+  #vp { isolation: isolate; contain: paint; } #guichet, #panel { isolation: isolate; }
   .g-in { position: relative; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr); gap: 44px; max-width: 1360px; margin: 0 auto; padding: 34px 44px 40px; min-height: 100%; align-items: start; }
   .g-x { position: fixed; top: 22px; right: 26px; z-index: 3; }
   .g-t { font-size: clamp(40px, 4.6vw, 66px); line-height: 1; margin: 8px 0 26px; white-space: nowrap; text-shadow: 0 6px 0 rgba(0,0,0,.35); }
@@ -288,11 +290,11 @@
   .tk3 .s output { min-width: 26px; text-align: center; font: 400 30px/1 var(--f-titre); }
   .g-after { display: flex; align-items: center; gap: 16px; margin-top: 26px; padding: 16px 20px; border-radius: 22px; background: var(--verre); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
   .g-r { position: sticky; top: 30px; padding: 26px; border-radius: 30px; background: rgba(5,32,26,.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16), 0 30px 80px rgba(0,0,0,.5); margin-top: 58px; }
-  .g-ring, .g-ring * { transform-style: preserve-3d; } .g-ring { height: 170px; perspective: 800px; display: grid; place-items: center; margin-top: -6px; } .g-ring .ring { scale: .56; }
+  .g-ring:has(.ring), .g-ring:has(.ring) * { transform-style: preserve-3d; } .g-ring:has(.ring) { perspective: 800px; } .g-ring { height: 170px; display: grid; place-items: center; margin-top: -6px; } .g-ring .ring { scale: .56; }
   .g-r h3 { font: 400 26px/28px var(--f-titre); text-transform: uppercase; color: var(--creme); margin: 0; text-align: center; }
   .perk { display: flex; gap: 10px; align-items: flex-start; font: 600 14px/20px var(--f-texte); color: var(--t-fort); animation: tkin .5s var(--m-courbe) backwards; animation-delay: calc(var(--n) * 60ms); } .perk i { color: var(--menthe); margin-top: 2px; }
   .gl { display: flex; justify-content: space-between; gap: 12px; font: 600 14px/22px var(--f-texte); color: var(--t-moyen); } .gl b { color: var(--t-fort); font-weight: 700; }
-  .gtot { display: flex; align-items: baseline; justify-content: space-between; margin-top: 12px; padding-top: 14px; box-shadow: inset 0 2px 0 rgba(255,255,255,.14); } .gtot b { font: 400 44px/44px var(--f-titre); color: var(--creme); }
+  .gtot { display: flex; align-items: baseline; justify-content: space-between; margin-top: 12px; padding-top: 14px; box-shadow: inset 0 2px 0 rgba(255,255,255,.14); } .gtot b { font: 400 clamp(30px, 3.1vw, 44px)/1 var(--f-titre); color: var(--creme); white-space: nowrap; }
   .pm { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border-radius: 16px; background: var(--s2); box-shadow: inset 0 0 0 1.5px var(--ligne); cursor: pointer; font-weight: 700; } .pm.is-on { box-shadow: inset 0 0 0 2px var(--menthe); background: var(--menthe-voile); } .pm small { display: block; font-weight: 500; color: var(--t-moyen); font-size: 12px; }
   .pm .lg { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--creme); color: var(--encre); font: 400 12px/1 var(--f-titre); flex-shrink: 0; }
   @media (max-width: 900px) { .g-in { grid-template-columns: 1fr; padding: 70px 16px 30px; gap: 20px; } .g-t { font-size: 40px; line-height: 40px; margin-bottom: 18px; white-space: normal; } #guichet { overflow-x: hidden; } .g-in > * { min-width: 0; } .g-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; } .tk3 { min-height: 118px; } .tk3 b.n { font-size: 24px; line-height: 26px; } .tk3 .p { font-size: 20px; } .tk3 .s { width: 132px; gap: 6px; } .tk3 .s button { width: 38px; height: 38px; } .tk3 .s output { font-size: 26px; min-width: 24px; } .g-r { position: static; margin-top: 0; padding: 20px; } .gtot b { font-size: 34px; } }
@@ -856,6 +858,7 @@
   const progress = () => forced !== null ? forced : Math.min(1, Math.max(0, SY / (HM() || 1)));
   function frame() {
     const now = performance.now(), dt = Math.min(400, now - (prev || now)); prev = now;
+    if (document.documentElement.classList.contains('gfull')) { requestAnimationFrame(frame); return; }   // guichet plein écran : rien à animer derrière
     if (!ECO && !STILL && document.visibilityState === 'visible' && now > 4000) { ecoN++; ecoT += dt; if (ecoN >= 90) { if (ecoT / ecoN > 21) { if (++ecoBad >= 2) { ECO = 1; document.documentElement.classList.add('eco'); } } else ecoBad = 0; ecoN = 0; ecoT = 0; } }
     if (TOUCH) { if (!drag && Math.abs(VY) > .015) { SY = clampY(SY + VY * dt); VY *= Math.exp(-dt / 340); if (SY <= 0 || SY >= HM()) VY = 0; } if (animTo !== null) { SY += (animTo - SY) * (1 - Math.exp(-dt / 240)); if (Math.abs(animTo - SY) < 1) { SY = animTo; animTo = null; } } }
     const ease = 1 - Math.exp(-dt / 110), easeM = 1 - Math.exp(-dt / 260);   // lissage indépendant de la cadence d'affichage
@@ -1122,9 +1125,10 @@
     const el = document.getElementById('gtotal'), from = STILL ? tot : shown, t0 = performance.now(); shown = tot; if (STILL) el.textContent = fmt(tot);       // le total défile jusqu'à sa nouvelle valeur
     (function step(t) { const q = Math.min(1, (t - t0) / 450), e = 1 - Math.pow(1 - q, 3); if (el.isConnected) el.textContent = fmt(from + (tot - from) * e); if (q < 1) requestAnimationFrame(step); })(t0);
   }
-  // le monde n'est masqué qu'une fois le guichet entièrement apparu, et réapparaît dès qu'il se referme
-  { let gt; new MutationObserver(() => { clearTimeout(gt); const o = G.classList.contains('open'); if (o) gt = setTimeout(() => document.documentElement.classList.add('gfull'), 520); else document.documentElement.classList.remove('gfull'); }).observe(G, { attributes: true, attributeFilter: ['class'] }); }
-  function openGuichet() { panel.classList.remove('open'); G.classList.add('open'); gCards(); gSide(); }
+  // 
+  // Guichet ouvert : le monde est masqué et sa boucle d'animation suspendue, tout de suite ; il revient dès que le guichet se referme.
+  new MutationObserver(() => document.documentElement.classList.toggle('gfull', G.classList.contains('open'))).observe(G, { attributes: true, attributeFilter: ['class'] });
+  function openGuichet() { panel.classList.remove('open'); G.classList.add('open'); document.documentElement.classList.add('gfull'); gCards(); gSide(); }
   G.addEventListener('click', e => {
     const b = e.target.closest('[data-q]'), card = e.target.closest('[data-add]'), pay = e.target.closest('[data-gpay]'), m = e.target.closest('[data-gm]');
     if (e.target.closest('[data-gclose]')) { G.classList.remove('open'); return; }
