@@ -1,0 +1,35 @@
+{
+    "name": "WeLovEya Festival App",
+    "short_name": "WeLovEya",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#05201A",
+    "theme_color": "#05201A",
+    "description": "Application du festival WeLovEya",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

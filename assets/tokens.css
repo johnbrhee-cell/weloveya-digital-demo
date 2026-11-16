@@ -1,0 +1,69 @@
+/* WELOVEYA DIGITAL — jetons de design v0.2 (transcription de tokens.json).
+   Base : identité relevée sur le site officiel du festival (vert jungle, crème, corail, menthe), poussée vers la nuit. */
+:root {
+  /* marque */
+  --nuit: #05201A;      /* fond le plus profond (nuit sous la canopée) */
+  --jungle: #0B3A2C;    /* vert officiel */
+  --creme: #F4EDB4;     /* titres, repères */
+  --corail: #FF6D43;    /* action principale */
+  --menthe: #2FE0B2;    /* action secondaire, positif */
+  --encre: #141414;     /* texte sur aplats clairs, cernes */
+  --soleil: #F5B942;    /* aplat « sticker » des silhouettes */
+
+  /* surfaces : plans distingués par le ton */
+  --s0: #05201A;
+  --s1: #082A21;
+  --s2: #0D372B;
+  --s3: #134637;
+  --s4: #1B5A47;
+  --verre: rgba(255, 255, 255, .10);
+  --verre-fort: rgba(255, 255, 255, .18);
+
+  /* texte */
+  --t-fort: #EAF6EE;
+  --t-moyen: #A9D3BF;
+  --t-doux: #7FA896;
+
+  /* voiles */
+  --creme-2: #FFF6D2;
+  --creme-voile: rgba(244, 237, 180, .13);
+  --corail-voile: rgba(255, 109, 67, .16);
+  --menthe-voile: rgba(47, 224, 178, .14);
+
+  /* lignes */
+  --ligne: rgba(234, 246, 238, .09);
+  --ligne-forte: rgba(234, 246, 238, .2);
+
+  /* états (le corail étant la couleur d'action, l'erreur est un rouge franc distinct) */
+  --succes: #2FE0B2;
+  --erreur: #FF4D6A;
+  --alerte: #FFB938;
+  --info: #6CB8FF;
+  --direct: #FF3B4E;
+  --succes-voile: rgba(47, 224, 178, .14);
+  --erreur-voile: rgba(255, 77, 106, .16);
+  --alerte-voile: rgba(255, 185, 56, .15);
+  --info-voile: rgba(108, 184, 255, .15);
+
+  /* typographie */
+  --f-titre: "Bungee", "Kumbh Sans", system-ui, sans-serif;
+  --f-texte: "Kumbh Sans", system-ui, -apple-system, sans-serif;
+
+  /* espace (base 4) */
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 16px; --e5: 20px; --e6: 24px;
+  --e8: 32px; --e10: 40px; --e12: 48px; --e16: 64px;
+
+  /* rayons */
+  --r-xs: 6px; --r-s: 10px; --r-m: 16px; --r-l: 22px; --r-xl: 28px; --r-pilule: 999px;
+
+  /* mouvement */
+  --m-rapide: 120ms; --m-standard: 220ms; --m-lent: 420ms;
+  --m-courbe: cubic-bezier(.2, .8, .2, 1);
+
+  /* élévation */
+  --o-feuille: 0 -12px 40px rgba(0, 0, 0, .5);
+  --o-flottant: 0 12px 32px rgba(0, 0, 0, .4);
+  --o-sticker: 0 4px 0 var(--encre);
+
+  --cible: 44px;
+}
