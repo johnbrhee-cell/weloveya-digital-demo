@@ -35,9 +35,9 @@
   /* voile d'entrée : rien ne se voit avant que la caméra soit en place (pas d'opacité sur #world : elle aplatirait la 3D) */
   /* Chargement : le nom du festival se pose lettre par lettre sur des rayons qui tournent, des barres battent la mesure, puis tout s'efface devant le portail. */
   #charge { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; overflow: hidden; background: radial-gradient(90% 70% at 50% 62%, #0c5443, #05201A 58%, #020d0a); transition: opacity .7s ease, visibility 0s .7s; }
-  .pret.prep #charge { opacity: 0; visibility: hidden; pointer-events: none; } .still #charge { display: none; }
+  .fini #charge { opacity: 0; visibility: hidden; pointer-events: none; } .still #charge { display: none; }
   .ch-rays { position: absolute; left: 50%; top: 50%; width: 120vmax; height: 120vmax; margin: -60vmax 0 0 -60vmax; background: repeating-conic-gradient(rgba(244,237,180,.06) 0 6deg, transparent 6deg 12deg); -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent); mask-image: radial-gradient(closest-side, #000 25%, transparent); animation: chtourne 36s linear infinite; }
-  .ch-in { position: relative; text-align: center; transition: scale .7s cubic-bezier(.3, 0, .2, 1); } .pret.prep .ch-in { scale: 1.14; }
+  .ch-in { position: relative; text-align: center; transition: scale .7s cubic-bezier(.3, 0, .2, 1); } .fini .ch-in { scale: 1.14; }
   .ch-logo { display: flex; justify-content: center; font: 400 clamp(38px, 9vw, 92px)/1 var(--f-titre); color: var(--creme); text-shadow: 0 .07em 0 rgba(0,0,0,.4); }
   .ch-logo span { display: inline-block; animation: chlet .75s cubic-bezier(.2, 1.5, .4, 1) calc(var(--i) * 70ms) backwards; } .ch-logo span.c { color: var(--corail); }
   .ch-sub { margin-top: .5em; font: 800 clamp(11px, 1.5vw, 15px)/1 var(--f-texte); letter-spacing: .42em; text-indent: .42em; color: var(--menthe); animation: chfade .8s ease .7s backwards; }
@@ -436,6 +436,7 @@
 </head>
 <body>
 <div id="charge" role="status" aria-label="Chargement"><div class="ch-rays"></div><div class="ch-in"><div class="ch-logo" aria-hidden="true"><span style="--i:0">W</span><span style="--i:1">E</span><span style="--i:2">L</span><span style="--i:3">O</span><span style="--i:4">V</span><span style="--i:5" class="c">E</span><span style="--i:6" class="c">Y</span><span style="--i:7" class="c">A</span></div><div class="ch-sub" aria-hidden="true">DIGITAL</div><div class="ch-eq" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i></div></div></div>
+<script>/* le chargement reste affiché le temps que son animation se pose (1,9 s au moins), puis s'efface dès que le monde est prêt */ { const h = document.documentElement, t0 = performance.now(); let fait = false; const voir = () => { if (!fait && h.classList.contains('pret') && h.classList.contains('prep')) { fait = true; setTimeout(() => h.classList.add('fini'), Math.max(0, 1900 - (performance.now() - t0))); } }; new MutationObserver(voir).observe(h, { attributes: true, attributeFilter: ['class'] }); }</script>
 
 <div id="track"></div>
 
