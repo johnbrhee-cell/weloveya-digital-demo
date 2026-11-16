@@ -858,7 +858,7 @@
   const progress = () => forced !== null ? forced : Math.min(1, Math.max(0, SY / (HM() || 1)));
   function frame() {
     const now = performance.now(), dt = Math.min(400, now - (prev || now)); prev = now;
-    if (document.documentElement.classList.contains('gfull')) { requestAnimationFrame(frame); return; }   // guichet plein écran : rien à animer derrière
+    if (document.documentElement.classList.contains('gfull')) { brFrame(now, dt); sndFrame(); requestAnimationFrame(frame); return; }   // guichet plein écran : seuls le bracelet et le son continuent, rien à animer derrière
     if (!ECO && !STILL && document.visibilityState === 'visible' && now > 4000) { ecoN++; ecoT += dt; if (ecoN >= 90) { if (ecoT / ecoN > 21) { if (++ecoBad >= 2) { ECO = 1; document.documentElement.classList.add('eco'); } } else ecoBad = 0; ecoN = 0; ecoT = 0; } }
     if (TOUCH) { if (!drag && Math.abs(VY) > .015) { SY = clampY(SY + VY * dt); VY *= Math.exp(-dt / 340); if (SY <= 0 || SY >= HM()) VY = 0; } if (animTo !== null) { SY += (animTo - SY) * (1 - Math.exp(-dt / 240)); if (Math.abs(animTo - SY) < 1) { SY = animTo; animTo = null; } } }
     const ease = 1 - Math.exp(-dt / 110), easeM = 1 - Math.exp(-dt / 260);   // lissage indépendant de la cadence d'affichage
